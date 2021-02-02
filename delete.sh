@@ -28,7 +28,7 @@ then
 fi
 }
 
-if [[ "{$BASH_SOURCE[0]}" == "${0}" ]]
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]
 then
 	main "$@"
 fi
