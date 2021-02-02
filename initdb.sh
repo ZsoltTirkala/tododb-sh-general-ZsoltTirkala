@@ -1,15 +1,17 @@
 check_db(){
-  psql -lqt | cut -f 1 | grep -wq $1
+  psql -lqt | cut -f 1 | grep -wq tododb
 }
 
-echo database:
-read
-if check_db $REPLY
+if check_db
 then
-  echo $REPLY exists
+  echo tododb exists
+  dropdb tododb
 else
-  echo $REPLY does not exist
+  echo tododb does not exist
 fi
 
-
-check_db
+createdb tododb
+echo psq username:
+read
+psql -h localhost -U $REPLY -d tododb -a -f schema.sql
+psql -h localhost -U $REPLY -d tododb -a -f data.sql
