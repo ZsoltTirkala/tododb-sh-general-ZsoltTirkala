@@ -18,11 +18,11 @@ psql -d tododb -c <<EOF "UPDATE todo SET done = 'false' WHERE id =$1"
 EOF
 echo "Marked as *not* done"
 }
-main() {
-if [[ "$1" == "mark_todo" ]]
+main(){
+if [[ "$1" == "mark-todo" ]]
 then
 	mark_todo "$2"
-elif [[ "$1" == "unmark_todo" ]]
+elif [[ "$1" == "unmark-todo" ]]
 then
 	unmark_todo "$2"
 fi
