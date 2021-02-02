@@ -12,14 +12,26 @@
 username=ubuntu
 add_user() {
     user=$1
-    echo "User: $user"
     psql -U $username -d tododb -c "INSERT INTO \"user\" (name) VALUES ('$user')"
     echo "User: $1"
 }
 
 add_todo() {
-    echo "User: $1"
+    user_id=$(get_userid $1)
+    if [[ "$user_id" != "" ]]
+    then
+	psql -U $username -d tododb -c "INSERT INTO \"todo\" (task, user_id, done) VALUES('$2', $user_id, 'false')"
+    fi
     echo "Todo: $2"
+    echo "added new todo"
+}
+
+get_userid() {
+    userid=$(psql -d tododb -qt << EOF
+    SELECT id FROM "user" WHERE name = '$1'
+EOF
+)
+    echo $userid
 }
 
 main() {
