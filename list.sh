@@ -11,18 +11,45 @@
 #    list.sh list-user-todos "John Doe"
 #
 
+DATABASE=tododb
+USERNAME=acer
+HOSTNAME=localhost
+PGPASSWORD=acer
+
 list_users() {
-    psql <<EOF
-SELECT * FROM "user"
+    users="$(psql -qt -h $HOSTNAME -U $USERNAME -d $DATABASE -F $'\n' << EOF
+    SELECT * FROM "user"
 EOF
+)"
+    echo $users
 }
 
 list_todos() {
-    echo "Your code"
+    todos="$(psql -qt -h $HOSTNAME -U $USERNAME -d $DATABASE << EOF 
+    SELECT * FROM "todo"
+EOF
+)"
+    echo $todos
 }
 
 list_user_todos() {
-    echo "User: $1"
+    user_id=$(get_userid $1)
+    if [[ "$user_id" != "" ]]
+    then
+	user_todos="$(psql -h $HOSTNAME -U $USERNAME $DATABASE << EOF
+   	SELECT * FROM "todo" WHERE user_id = '$user_id'
+EOF
+)"
+	echo $user_todos
+    fi
+}
+
+get_userid() {
+   userid=$(psql -d tododb -qt  << EOF
+   SELECT id FROM "user" WHERE name = '$1'
+EOF
+)
+   echo $userid
 }
 
 main() {
