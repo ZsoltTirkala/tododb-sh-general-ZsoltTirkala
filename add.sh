@@ -9,8 +9,11 @@
 #    add.sh add-todo John Meeting
 #    add.sh add-todo Paul "Make breakfast"
 #
-
+username=ubuntu
 add_user() {
+    user=$1
+    echo "User: $user"
+    psql -U $username -d tododb -c "INSERT INTO \"user\" (name) VALUES ('$user')"
     echo "User: $1"
 }
 
