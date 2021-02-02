@@ -8,8 +8,24 @@
 #    mark.sh unmark-todo 32
 #
 
+mark_todo(){
+psql -d tododb -c <<EOF "UPDATE todo SET done = 'true' WHERE id =$1"
+EOF
+echo "Marked as done"
+}
+unmark_todo(){
+psql -d tododb -c <<EOF "UPDATE todo SET done = 'false' WHERE id =$1"
+EOF
+echo "Marked as *not* done"
+}
 main() {
-    echo "Your code"
+if [[ "$1" == "mark_todo" ]]
+then
+	mark_todo "$2"
+elif [[ "$1" == "unmark_todo" ]]
+then
+	unmark_todo "$2"
+fi
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]
