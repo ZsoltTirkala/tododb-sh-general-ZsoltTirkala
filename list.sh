@@ -17,30 +17,24 @@ HOSTNAME=localhost
 PGPASSWORD=acer
 
 list_users() {
-    users="$(psql -qt -h $HOSTNAME -U $USERNAME -d $DATABASE -F $'\n' << EOF
+    psql -h $HOSTNAME -U $USERNAME -d $DATABASE -F $'\n' << EOF
     SELECT * FROM "user"
 EOF
-)"
-    echo $users
 }
 
 list_todos() {
-    todos="$(psql -qt -h $HOSTNAME -U $USERNAME -d $DATABASE << EOF 
+    psql -qt -h $HOSTNAME -U $USERNAME -d $DATABASE << EOF 
     SELECT * FROM "todo"
 EOF
-)"
-    echo $todos
 }
 
 list_user_todos() {
     user_id=$(get_userid $1)
     if [[ "$user_id" != "" ]]
     then
-	user_todos="$(psql -h $HOSTNAME -U $USERNAME $DATABASE << EOF
+	psql -h $HOSTNAME -U $USERNAME $DATABASE << EOF
    	SELECT * FROM "todo" WHERE user_id = '$user_id'
 EOF
-)"
-	echo $user_todos
     fi
 }
 
