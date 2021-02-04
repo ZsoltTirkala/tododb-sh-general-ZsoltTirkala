@@ -4,14 +4,13 @@ check_db(){
 
 if check_db
 then
-  echo tododb exists
+  echo "Tododb exists!"
   dropdb tododb
 else
-  echo tododb does not exist
+  echo "Tododb does not exist!"
 fi
 
 createdb tododb
-echo psq username:
-read
-psql -h localhost -U $REPLY -d tododb -a -f schema.sql
-psql -h localhost -U $REPLY -d tododb -a -f data.sql
+read -p "Psql username: " username
+psql -h localhost -U $username -d tododb -a -f schema.sql
+psql -h localhost -U $username -d tododb -a -f data.sql
