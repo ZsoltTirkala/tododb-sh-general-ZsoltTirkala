@@ -23,7 +23,7 @@ add_todo() {
 	psql -U $username -d tododb -c "INSERT INTO \"todo\" (task, user_id, done) VALUES('$2', $user_id, 'false')"
     fi
     echo "Todo: $2"
-    echo "added new todo"
+    echo "Added new todo!"
 }
 
 get_userid() {

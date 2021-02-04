@@ -11,12 +11,12 @@
 mark_todo(){
 psql -d tododb -c <<EOF "UPDATE todo SET done = 'true' WHERE id =$1"
 EOF
-echo "Marked as done"
+echo "Todo marked as done"
 }
 unmark_todo(){
 psql -d tododb -c <<EOF "UPDATE todo SET done = 'false' WHERE id =$1"
 EOF
-echo "Marked as *not* done"
+echo "Todo marked as *not* done"
 }
 main(){
 if [[ "$1" == "mark-todo" ]]
